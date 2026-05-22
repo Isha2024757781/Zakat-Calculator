@@ -20,7 +20,7 @@ public class AboutActivity extends AppCompatActivity {
         btnGithub = findViewById(R.id.btnGithub);
 
         btnGithub.setOnClickListener(v -> {
-            String url = "https://github.com/yourusername/ZakatGoldCalculator";
+            String url = "https://github.com/Isha2024757781/Zakat-Calculator.git";
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             startActivity(intent);
         });
