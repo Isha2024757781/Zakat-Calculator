@@ -14,9 +14,7 @@ public class MainActivity extends AppCompatActivity {
 
     EditText etWeight, etGoldValue;
     RadioButton rbKeep, rbWear;
-
     Button btnCalculate, btnReset;
-
     TextView tvTotalGoldValue, tvZakatPayable, tvTotalZakat;
 
     @Override
@@ -57,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
             String shareText = getString(R.string.app_name);
 
             String weightText = etWeight.getText().toString().trim();
+
             if (!weightText.isEmpty()) {
                 shareText += "\n\n" + tvTotalGoldValue.getText()
                         + "\n" + tvZakatPayable.getText()
@@ -69,11 +68,13 @@ public class MainActivity extends AppCompatActivity {
             startActivity(Intent.createChooser(shareIntent, getString(R.string.share)));
             return true;
         }
+
         if (item.getItemId() == R.id.menuAbout) {
             Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -105,9 +106,11 @@ public class MainActivity extends AppCompatActivity {
             uruf = 200;
         }
 
-        double totalGoldValue = weight * goldValue;
+        // Gold weight minus uruf
+        double goldWeightMinusUruf = weight - uruf;
 
-        double taxableWeight = weight - uruf;
+        // For zakat calculation, negative value becomes 0
+        double taxableWeight = goldWeightMinusUruf;
 
         if (taxableWeight < 0) {
             taxableWeight = 0;
@@ -118,15 +121,15 @@ public class MainActivity extends AppCompatActivity {
         double totalZakat = zakatPayable * 0.025;
 
         tvTotalGoldValue.setText(
-                "💜  Total Gold Value                         RM "
-                        + String.format("%.2f", totalGoldValue));
+                "💜  Gold Weight minus Uruf             "
+                        + String.format("%.2f", goldWeightMinusUruf) + " g");
 
         tvZakatPayable.setText(
-                "⚖️  Zakat Payable Value                  RM "
+                "⚖️  Zakat Payable Value                RM "
                         + String.format("%.2f", zakatPayable));
 
         tvTotalZakat.setText(
-                "✅  Total Zakat (2.5%)                    RM "
+                "✅  Total Zakat (2.5%)                  \nRM "
                         + String.format("%.2f", totalZakat));
     }
 
@@ -138,13 +141,13 @@ public class MainActivity extends AppCompatActivity {
         rbKeep.setChecked(true);
 
         tvTotalGoldValue.setText(
-                "💜  Total Gold Value                         RM 0.00");
+                "💜  Gold Weight minus Uruf             0.00 g");
 
         tvZakatPayable.setText(
-                "⚖️  Zakat Payable Value                  RM 0.00");
+                "⚖️  Zakat Payable Value                RM 0.00");
 
         tvTotalZakat.setText(
-                "✅  Total Zakat (2.5%)                    RM 0.00");
+                "✅  Total Zakat (2.5%)                  RM 0.00");
 
         etWeight.requestFocus();
     }
